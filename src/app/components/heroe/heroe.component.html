@@ -1,0 +1,32 @@
+<h1>{{heroe.nombre | uppercase}} (<small>{{heroe.aparicion | date: 'y'}}</small>) </h1>
+<hr>
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <img [src]="heroe.img" class="img-fluid" [alt]="heroe.img">
+        <br>
+        <br>
+
+        <a class="btn btn-outline-danger btn-block" (click)="volverHeroes()"> Regresar</a>
+
+    </div>
+
+    <div class="col-md-8">
+        <h3>{{heroe.nombre}} </h3>
+        <hr>
+        <p class="card-text">{{heroe.bio}}</p>
+        <div>
+            <img *ngIf="logoDC" src="assets/img/DC.jpg" width="100" height="100" class="img-fluid">
+            <img *ngIf="logoMarvel" src="assets/img/Marvel.jpg" width="100" height="100" class="img-fluid">
+
+        </div>
+
+    </div>
+
+
+
+
+
+</div>
