@@ -27,7 +27,7 @@ jobs:
 # Paso 6: Clonar el repositorio de despliegue
     - name: Clone deployment repository
       env:
-        EXTERNAL_REPO: 'https://github.com/sdtorresl/diplomado-ci-cd-k8s'
+        EXTERNAL_REPO: 'https://github.com/sdtorresl/diplomado-ci-cd-k8s.git'
         BRANCH: 'main'
       run: |
         git clone --single-branch --branch ${{ env.BRANCH }} ${{ env.EXTERNAL_REPO }} diplomado-ci-cd-k8s
