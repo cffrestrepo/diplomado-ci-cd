@@ -21,3 +21,40 @@ jobs:
         dockerfile: Dockerfile
         username: cffrestre
         password: ${{ secrets.DOCKESECRET }}
+
+
+
+# Paso 6: Clonar el repositorio de despliegue
+    - name: Clone deployment repository
+      env:
+        EXTERNAL_REPO: 'https://github.com/sdtorresl/diplomado-ci-cd-k8s'
+        BRANCH: 'main'
+      run: |
+        git clone --single-branch --branch ${{ env.BRANCH }} ${{ env.EXTERNAL_REPO }} diplomado-ci-cd-k8s
+        cd diplomado-ci-cd-k8s
+
+    # Paso 7: Instalar y configurar yq para manipulación de YAML
+    - name: yq - portable yaml processor
+      uses: mikefarah/yq@v4.44.3
+
+    # Paso 8: Actualizar la etiqueta de la imagen en el archivo de despliegue de Kubernetes
+    - name: Set new image tag
+      env:
+        IMAGE_NAME: cffrestre/diplomado-ci-cd
+        NEW_TAG: ${{ github.sha }}
+      run: |
+        cd diplomado-ci-cd-k8s
+        yq eval ".spec.template.spec.containers[0].image = \"${{ env.IMAGE_NAME }}:${{ github.sha }}\"" -i heros-deployment.yaml
+
+    # Paso 9: Commit y push de los cambios al repositorio externo
+    - name: Commit changes in external repo
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      run: |
+        cd componente-patrones-k8s
+        git config --local user.email "cff.restrepo@github.com"
+        git config --local user.name "cffrestrepo"
+        git add .
+        git commit -m "Actualiza imagen a ${{ env.IMAGE_NAME }}:${{ github.sha }}"
+        git remote set-url origin https://sdtorresl:${{ env.GITHUB_TOKEN }}@github.com/sdtorresl/diplomado-ci-cd-k8s.git
+        git push origin main
