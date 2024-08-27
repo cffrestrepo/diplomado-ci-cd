@@ -51,7 +51,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
       run: |
-        cd componente-patrones-k8s
+        cd diplomado-ci-cd-k8s
         git config --local user.email "cff.restrepo@github.com"
         git config --local user.name "cffrestrepo"
         git add .
