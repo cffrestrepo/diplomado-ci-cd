@@ -43,8 +43,8 @@ jobs:
         IMAGE_NAME: cffrestre/diplomado-ci-cd
         NEW_TAG: ${{ github.sha }}
       run: |
-        cd diplomado-ci-cd-k8s
-        yq eval ".spec.template.spec.containers[0].image = \"${{ env.IMAGE_NAME }}:${{ github.sha }}\"" -i heros-deployment.yaml
+        cd diplomado-ci-cd-k8s/heros-chart
+        yq eval "image.tag = \"${{ github.sha }}\"" -i values.yaml
 
     # Paso 9: Commit y push de los cambios al repositorio externo
     - name: Commit changes in external repo
