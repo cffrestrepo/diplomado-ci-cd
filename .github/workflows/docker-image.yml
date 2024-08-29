@@ -44,7 +44,7 @@ jobs:
         NEW_TAG: ${{ github.sha }}
       run: |
         cd diplomado-ci-cd-k8s/heros-chart
-        yq eval "image.tag = \"${{ github.sha }}\"" -i values.yaml
+        yq eval ".image.tag = \"${{ github.sha }}\"" -i values.yaml
 
     # Paso 9: Commit y push de los cambios al repositorio externo
     - name: Commit changes in external repo
